@@ -32,7 +32,7 @@ corporations, governments, and hackers from logging, storing or selling your per
 	- [Browsers](#browsers) (5)
 	- [Search Engines](#search-engines) (6)
 - **Communication**
-	- [Encrypted Messaging](#encrypted-messaging) (5)
+	- [Encrypted Messaging](#encrypted-messaging) (4)
 	- [P2P Messaging](#p2p-messaging) (4)
 	- [Encrypted Email](#encrypted-email) (5)
 	- [Email Clients](#email-clients) (6)
@@ -257,7 +257,6 @@ that makes a good alternative to BitLocker.
 ### Encrypted Messaging
 
 - **[<img src='https://signal.org/assets/images/favicon/android-chrome-192x192.png' width='14' alt='' /> Signal](https://signal.org)** - Probably one of the most popular, secure private messaging apps that combines strong encryption (see [Signal Protocol](https://en.wikipedia.org/wiki/Signal_Protocol)) with a simple UI and plenty of features. It's widely used across the world, and ea[…](https://awesome-privacy.xyz/communication/encrypted-messaging/signal "View full Signal report") 
-- **[<img src='https://getsession.org/favicon.ico' width='14' alt='' /> Session](https://getsession.org)** - Session is a fork of Signal, however unlike Signal it does not require a mobile number (or any other personal data) to register, instead each user is identified by a public key. It is also decentraliz[…](https://awesome-privacy.xyz/communication/encrypted-messaging/session "View full Session report") 
 - **[<img src='https://simplex.chat/img/new/logo-symbol-light.svg' width='14' alt='' /> SimpleX](https://simplex.chat/)** - Simplex is gaining popularity as a secure and private messaging app renowned for its robust encryption protocol without user IDs or phone numbers and this improves your privacy. Simplex offers instant[…](https://awesome-privacy.xyz/communication/encrypted-messaging/simplex "View full SimpleX report") 
 - **[<img src='https://xmpp.org/apple-touch-icon.png' width='14' alt='' /> XMPP](https://xmpp.org)** - XMPP, also known as Jabber, is an open standard for decentralized messaging that has been widely used for decades. It has actually been the basis upon which WhatsApp, Facebook's Chat and Google's Talk[…](https://awesome-privacy.xyz/communication/encrypted-messaging/xmpp "View full XMPP report") 
 - **[<img src='https://matrix.org/assets/favicon.ico' width='14' alt='' /> Matrix](https://matrix.org)** - Matrix is a decentralized open network for secure communications, with E2E encryption with Olm and Megolm. Along with the [Element](https://element.io/) client, it supports VOIP + video calling and IM + group chats. Since M[…](https://awesome-privacy.xyz/communication/encrypted-messaging/matrix "View full Matrix report") 
@@ -436,7 +435,7 @@ Now more than ever we are relying on software to help with team collaboration. U
 <details>
 <summary>✳️ <b>Notable Mentions</b></summary>
 
-> Some chat platforms allow for cross-platform group chats, voice and video conferencing, but without the additional collaboration features. For example, [Tox](https://tox.chat/), [Session](https://getsession.org/), [Ricochet](https://ricochet.im/), [Mumble](https://www.mumble.info/) and [Jami](https://jami.net/).<br> For Conferences, [OSEM](https://osem.io) is an open source all-in-one conference management tool, providing Registration, Schedules, Live and Recorded Sessions, Paper Submissions, Marketing Pages and Administration.
+> Some chat platforms allow for cross-platform group chats, voice and video conferencing, but without the additional collaboration features. For example, [Tox](https://tox.chat/), [Ricochet](https://ricochet.im/), [Mumble](https://www.mumble.info/) and [Jami](https://jami.net/).<br> For Conferences, [OSEM](https://osem.io) is an open source all-in-one conference management tool, providing Registration, Schedules, Live and Recorded Sessions, Paper Submissions, Marketing Pages and Administration.
 > </details>
 
 <p align="right"><sup><a href="#top">⬆️ [Back to Top]</a></sub></p>
