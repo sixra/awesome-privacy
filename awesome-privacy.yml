@@ -1452,14 +1452,6 @@ categories:
           [Chrome](https://chrome.google.com/webstore/detail/duckduckgo-privacy-essent/bkdgflcldnnnapblkhphbgpggdiikppg?hl=en-GB) \
           [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/duckduckgo-for-firefox/)
 
-      - name: Privacy Redirect
-        url: https://github.com/SimonBrazell/privacy-redirect
-        github: SimonBrazell/privacy-redirect
-        icon: https://lh3.googleusercontent.com/pC5a_u12RlaLQhJ-5Jz87rtju2s0tCksUfZHvr3JYzAaiYZJfJapmuftodT7wuAedFOHtgxR2BGh_GmKijgiK5bJyA
-        description: |
-          A simple web extension that redirects Twitter, YouTube, Instagram & Google Maps requests to privacy friendly alternatives
-          **Download**: [Firefox](https://addons.mozilla.org/en-US/firefox/addon/privacy-redirect/) - [Chrome](https://chrome.google.com/webstore/detail/privacy-redirect/pmcmeagblkinmogikoikkdjiligflglb)
-
       - name: User Agent Switcher
         url: https://add0n.com/useragent-switcher.html
         icon: https://i.ibb.co/hyb1SGK/useragent-switcher128.png
