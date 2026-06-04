@@ -4390,6 +4390,27 @@ categories:
         github: gladysassistant/gladys
         icon: https://avatars.githubusercontent.com/u/7365162?s=200&v=4
 
+    - name: Security Cameras
+      alternativeTo: ['ring', 'nest cam', 'wyze', 'arlo', 'eufy']
+      services:
+      - name: Secluso
+        description: |
+          An open source, end-to-end encrypted, privacy-focused DIY home security camera
+          solution for the Raspberry Pi (open hardware)
+          It offers fully E2EE remote access (live streaming,  smart motion alerts and playback) 
+          via Secluso's mobile app
+          Uses an untrusted relay server to route data (relay only sees encrypted blobs).
+          A GUI deploy tool handles image building and optional self-hosted relay setup, 
+          making it accessible without technical knowledge.
+          De-Googled distribution is supported via Obtainium and UnifiedPush (tested on GrapheneOS).
+        url: https://secluso.com
+        icon: https://avatars.githubusercontent.com/u/271067237?s=400&u=183f42b70679974bfd5b7e0ad0bd12aee0b45d98&v=4
+        github: secluso/core
+        iosApp: https://apps.apple.com/sg/app/secluso/id6756543429
+        androidApp: https://play.google.com/store/apps/details?id=com.secluso.mobile
+        securityAudit: false
+        openSource: true
+
   - name: Finance
     sections:
     - name: Cryptocurrencies
