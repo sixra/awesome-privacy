@@ -4406,7 +4406,7 @@ categories:
         description: |
           An open source, end-to-end encrypted, privacy-focused DIY home security camera
           solution for the Raspberry Pi (open hardware)
-          It offers fully E2EE remote access (live streaming,  smart motion alerts and playback) 
+          It offers fully E2EE remote access (live streaming, smart motion alerts and playback) 
           via Secluso's mobile app
           Uses an untrusted relay server to route data (relay only sees encrypted blobs).
           A GUI deploy tool handles image building and optional self-hosted relay setup, 
