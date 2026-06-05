@@ -7,11 +7,11 @@ import sys
 
 import yaml
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(levelname)s [%(filename)s] %(message)s",
-    stream=sys.stderr,
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import utils
+
+utils.setup_logging()
+logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA_PATH = os.path.join(PROJECT_ROOT, "awesome-privacy.yml")
@@ -278,51 +278,47 @@ def main():
     critical = False
     try:
         if os.environ.get("SCHEMA_OUTCOME") == "failure":
+            logger.warning("Schema validation failed upstream, surfacing schema errors")
             findings.extend(schema_findings())
 
         diff = load_json(DIFF_PATH)
         head = load_yaml_data(DATA_PATH)
 
-        if diff:
-            finding = check_single_entry(diff)
-            if finding:
-                findings.append(finding)
-
-            finding = check_required_fields(diff, head)
-            if finding:
-                findings.append({"msg": finding, "level": "error"})
-                critical = True
-
-            finding = check_position(diff, head)
-            if finding:
-                findings.append(finding)
-
-            finding = check_open_source(diff)
-            if finding:
-                findings.append(finding)
+        if not diff:
+            logger.info("No diff at %s, nothing to validate", DIFF_PATH)
+        else:
+            added = diff.get("services", {}).get("added", [])
+            modified = diff.get("services", {}).get("modified", [])
+            logger.info("Validating additions: %d added, %d modified service(s)",
+                        len(added), len(modified))
 
             name_index = build_name_index(head, diff)
             url_index = build_url_index(head, diff)
 
-            finding = check_duplicate_name(diff, name_index)
-            if finding:
-                findings.append(finding)
-
-            finding = check_duplicate_url(diff, url_index)
-            if finding:
-                findings.append(finding)
-
-            finding = check_description_length(diff)
-            if finding:
-                findings.append(finding)
-
-            finding = check_opensource_github(diff)
-            if finding:
-                findings.append(finding)
+            checks = [
+                ("single-entry", check_single_entry(diff), False),
+                ("required-fields", check_required_fields(diff, head), True),
+                ("position", check_position(diff, head), False),
+                ("open-source", check_open_source(diff), False),
+                ("duplicate-name", check_duplicate_name(diff, name_index), False),
+                ("duplicate-url", check_duplicate_url(diff, url_index), False),
+                ("description-length", check_description_length(diff), False),
+                ("opensource-repo", check_opensource_github(diff), False),
+            ]
+            for name, finding, is_error in checks:
+                if not finding:
+                    continue
+                logger.info("flagged: %s", name)
+                if is_error:
+                    findings.append({"msg": finding, "level": "error"})
+                    critical = True
+                else:
+                    findings.append(finding)
     except Exception as exc:
-        logging.error("Unhandled error in main: %s", exc, exc_info=True)
+        logger.error("Unhandled error in main: %s", exc, exc_info=True)
 
-    logging.info("Writing %d finding(s) to %s", len(findings), FINDINGS_PATH)
+    logger.info("Additions check: %d finding(s)%s, writing to %s",
+                len(findings), " (critical)" if critical else "", FINDINGS_PATH)
     with open(FINDINGS_PATH, "w") as f:
         json.dump(findings, f)
     sys.exit(1 if critical else 0)

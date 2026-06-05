@@ -5,13 +5,17 @@ formats into markdown, and inserts into README.md
 
 import os
 import re
+import sys
 import yaml
 import logging
 from urllib.parse import urlparse
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import utils
+
 # Configure Logging
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
-logging.basicConfig(level=LOG_LEVEL)
+utils.setup_logging(LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 # Determine the project root based on the script's location
