@@ -116,7 +116,10 @@ def makeAwesomePrivacy(data):
           # If word of warning exists, append it
           if section.get('wordOfWarning'):
             markdown += "<details>\n<summary>⚠️ <b>Word of Warning</b></summary>\n\n"
-            markdown += f"> {section.get('wordOfWarning')}\n\n"
+            word_of_warning = '\n'.join(
+              f"> {line}".rstrip() for line in section.get('wordOfWarning').strip().split('\n')
+            )
+            markdown += f"{word_of_warning}\n\n"
             markdown += "</details>\n\n"
           # If notable mentions exists, append it (either as a list or a single string)
           if section.get('notableMentions'):
