@@ -3519,6 +3519,29 @@ categories:
         and provides high-quality video streaming, multi-user whiteboards,
         breakout rooms, and instant chat.
 
+    ###############################
+    ###### Maps & Navigation ######
+    ###############################
+    - name: Maps & Navigation
+      alternativeTo: ['google maps', 'apple maps', 'waze']
+      intro: |
+        Mainstream mapping apps log your location history, search queries and routes,
+        building a detailed picture of where you live, work and travel. A privacy-respecting
+        maps app keeps navigation on your device, works offline, and collects nothing about you.
+      services:
+      - name: CoMaps
+        url: https://www.comaps.app
+        codeberg: comaps/comaps
+        icon: https://www.comaps.app/favicon.ico
+        followWith: Android, iOS, Linux, MacOS
+        openSource: true
+        androidApp: app.comaps.google
+        iosApp: https://apps.apple.com/us/app/comaps/id6747180809
+        description: |
+          Community-led, not-for-profit offline maps and navigation app built on OpenStreetMap data.
+          No tracking, ads or data collection; all search and routing happen on-device. A community fork
+          of Organic Maps, supporting driving, cycling and hiking.
+
   - name: Utilities
     sections:
     ##############################
