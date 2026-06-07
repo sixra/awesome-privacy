@@ -112,8 +112,10 @@ deployment and development guides, as well as instructions for self-hosting, con
 
   `
 
-  const publicDescription = 'Endpoints to browse the awesome-privacy dataset programatically';
-  const enrichDescription = 'Endpoints to fetch additional data about listings from external sources';
+  const publicDescription =
+    'Endpoints to browse the awesome-privacy dataset programatically'
+  const enrichDescription =
+    'Endpoints to fetch additional data about listings from external sources'
 
   // OpenAPI document plus Scalar UI
   app.doc('/openapi.json', {
