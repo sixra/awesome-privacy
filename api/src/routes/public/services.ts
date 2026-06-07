@@ -11,7 +11,7 @@ const listRoute = createRoute({
   method: 'get',
   path: '/services',
   tags: ['Public'],
-  summary: 'List services with filters and pagination',
+  summary: 'List services',
   request: {
     query: z.object({
       category: z.string().optional(),
@@ -48,7 +48,7 @@ const oneRoute = createRoute({
   method: 'get',
   path: '/services/{slug}',
   tags: ['Public'],
-  summary: 'One service by slug',
+  summary: 'Get service',
   request: { params: z.object({ slug: z.string() }) },
   responses: {
     200: Ok(Envelope(FlatServiceSchema)),

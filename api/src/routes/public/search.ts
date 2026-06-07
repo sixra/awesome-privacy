@@ -15,7 +15,7 @@ const route = createRoute({
   method: 'get',
   path: '/search',
   tags: ['Public'],
-  summary: 'Full-text search across services',
+  summary: 'Search',
   request: { query: querySchema },
   responses: {
     200: Ok(ListEnvelope(SearchHitSchema)),

@@ -10,7 +10,7 @@ const statsRoute = createRoute({
   method: 'get',
   path: '/stats',
   tags: ['Public'],
-  summary: 'Dataset-wide counts',
+  summary: 'Stats',
   responses: { 200: Ok(Envelope(StatsSchema)) },
 })
 
@@ -20,7 +20,7 @@ const healthRoute = createRoute({
   method: 'get',
   path: '/health',
   tags: ['Public'],
-  summary: 'Liveness check',
+  summary: 'Health',
   responses: { 200: Ok(Envelope(HealthSchema)) },
 })
 

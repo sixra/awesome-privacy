@@ -25,7 +25,7 @@ const listCategories = createRoute({
   method: 'get',
   path: '/categories',
   tags: ['Public'],
-  summary: 'List all categories with section summaries',
+  summary: 'List categories',
   responses: {
     200: Ok(ListEnvelope(CategorySchema)),
   },
@@ -48,7 +48,7 @@ const oneCategory = createRoute({
   method: 'get',
   path: '/categories/{slug}',
   tags: ['Public'],
-  summary: 'One category by slug',
+  summary: 'Get category',
   request: { params: z.object({ slug: z.string() }) },
   responses: {
     200: Ok(Envelope(CategorySchema)),
@@ -76,7 +76,7 @@ const oneSection = createRoute({
   method: 'get',
   path: '/sections/{slug}',
   tags: ['Public'],
-  summary: 'One section by slug, with services',
+  summary: 'Get section',
   request: { params: z.object({ slug: z.string() }) },
   responses: {
     200: Ok(Envelope(SectionSchema)),

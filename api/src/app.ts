@@ -87,7 +87,33 @@ export const buildApp = () => {
   > There's also many real privacy issues which the automated lookups have no way of detecting,
   > as well as the possibility for false positives/negatives.
   > **Always do your own research**.
+
+<details>
+<summary>Authenticating</summary>
+
+By default, no auth is needed.
+If you're self-hosting, you can enable auth by setting the \`API_KEY\` env var.
+Then, add the \`Authorization: Bearer <your-token>\` header when accessing the enrichment endpoints.
+</details>
+
+<details>
+<summary>Caching</summary>
+
+Some responses are cached to reduce load on upstream services.
+When configured, successful enrichment data results are put in KV for upto 7 days.
+</details>
+
+<details>
+<summary>Self-Hosting</summary>
+
+See the [repo](https://github.com/lissy93/awesome-privacy/tree/main/api) for
+deployment and development guides, as well as instructions for self-hosting, contributing and usage.
+</details>
+
   `
+
+  const publicDescription = 'Endpoints to browse the awesome-privacy dataset programatically';
+  const enrichDescription = 'Endpoints to fetch additional data about listings from external sources';
 
   // OpenAPI document plus Scalar UI
   app.doc('/openapi.json', {
@@ -99,11 +125,8 @@ export const buildApp = () => {
     },
     servers: [{ url: '/' }],
     tags: [
-      { name: 'Public', description: 'Open, cached, served from the local dataset' },
-      {
-        name: 'Enrichment',
-        description: 'Bearer-auth routes that proxy + cache third-party data',
-      },
+      { name: 'Public', description: publicDescription },
+      { name: 'Enrichment', description: enrichDescription },
     ],
   })
   const blurb = 'Browse awesome-privacy data and enrichment insights programmatically.'
@@ -115,7 +138,6 @@ export const buildApp = () => {
       persistAuth: true,
       favicon: 'https://awesome-privacy.xyz/favicon.svg',
       operationTitleSource: 'summary',
-      tagsSorter: 'alpha',
       operationsSorter: 'alpha',
       orderRequiredPropertiesFirst: true,
       mcp: { name: 'Awesome Privacy', url: '/v1/mcp' },
