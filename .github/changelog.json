@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-13T13:40:18Z",
+  "generatedAt": "2026-06-14T19:03:02Z",
   "processedShas": [
     "02125ec429ec1ce9c5acdec1604703cb058a7887",
     "02231fb0a59ee43f93c6d0143640284cb7587d71",
@@ -146,6 +146,7 @@
     "dbb44f56681d9456e5808737b8c3873c0c7e8af5",
     "dc6bd7c8a78f3a9a054aa77327b040adf1ced610",
     "dd6ae4904bf653b577869e6516907db1782d5884",
+    "dd7657fc7933d73d7ecb0d3c5ebea2c0e64b26c7",
     "dec42f0572b2f52fad5ccd5f52ae6f4ae0b18721",
     "df686cd77a1ff89ba9a318089d46c1585b63b572",
     "e192c0a4ae62d6d5dc4f3d163825b6b90205527a",
@@ -267,9 +268,46 @@
     609,
     610,
     611,
-    613
+    613,
+    619
   ],
   "entries": [
+    {
+      "date": "2026-06-14",
+      "sha": "dd7657fc7933d73d7ecb0d3c5ebea2c0e64b26c7",
+      "pr": {
+        "number": 621,
+        "url": "https://github.com/lissy93/awesome-privacy/pull/621",
+        "author": "lissy93",
+        "authorAvatar": "https://avatars.githubusercontent.com/u/1862727?v=4"
+      },
+      "changes": {
+        "services": {
+          "added": [
+            {
+              "name": "Immich",
+              "category": "Media",
+              "section": "Photo Management"
+            }
+          ]
+        },
+        "sections": {
+          "added": [
+            {
+              "name": "Photo Management",
+              "category": "Media"
+            }
+          ],
+          "removed": [
+            {
+              "name": "Photo Viewers",
+              "category": "Media"
+            }
+          ]
+        },
+        "categories": {}
+      }
+    },
     {
       "date": "2026-06-13",
       "sha": "bdea1fa26b4d87c0c156b8e2aca3431ca6dd29f2",
@@ -5612,6 +5650,16 @@
     }
   ],
   "rejections": [
+    {
+      "date": "2026-06-14",
+      "title": "Add Cypher eSIM to Virtual Phone Numbers",
+      "pr": {
+        "number": 619,
+        "url": "https://github.com/lissy93/awesome-privacy/pull/619",
+        "author": "YuriiANdr",
+        "authorAvatar": "https://avatars.githubusercontent.com/u/77146173?v=4"
+      }
+    },
     {
       "date": "2026-06-12",
       "title": "Adds LogZero to Task Management",

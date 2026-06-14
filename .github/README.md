@@ -108,6 +108,7 @@ corporations, governments, and hackers from logging, storing or selling your per
 	- [News Readers](#news-readers) (1)
 	- [Proxy Sites](#proxy-sites) (4)
 - **Media**
+	- [Photo Management](#photo-management) (1)
 	- [File Converters](#file-converters) (2)
 - **Creativity**
 	- [Image Editors](#image-editors) (8)
@@ -2165,9 +2166,10 @@ TikTok, and more.*
 
 ---
 
-### Photo Viewers
+### Photo Management
 
-<p  align="center"><b>⚠️ This section is still a work in progress ⚠️</b><br /><i>Check back soon, or help us complete it by submitting a pull request</i></p>
+- **[<img src='https://avatars.githubusercontent.com/u/109746326?s=256&v=4' width='14' alt='' /> Immich](https://immich.app)** - Self-hosted photo and video backup and management server, with automatic mobile upload, timeline view, albums, search and facial recognition. Needs to be self-hosted, but gives you full ownership + co[…](https://awesome-privacy.xyz/media/photo-management/immich "View full Immich report") 
+
 <p align="right"><sup><a href="#top">⬆️ [Back to Top]</a></sub></p>
 
 ---
