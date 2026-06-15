@@ -3922,15 +3922,6 @@ categories:
           A free and open-source operating system for various devices, based on the Android mobile platform - Lineage is light-weight, well maintained,
           supports a wide range of devices, and comes bundled with Privacy Guard.
 
-      - name: AXP.OS
-        url: https://axpos.org
-        git: https://git.disroot.org/AXP.OS
-        icon: https://axpos.org/favicon.svg
-        description: |
-          AXP.OS is an operating system based on AOSP & LineageOS. Emerged from the discontinued
-          [DivestOS](https://divestos-archive.codeberg.page), it aims to prolong the lifespan of discontinued
-          devices, enhance privacy and increase security where possible, e.g. by backporting kernel patches.
-
       notableMentions: |
         [Replicant OS](https://www.replicant.us/) is a fully-featured distro,
         with an emphasis on freedom, privacy and security.
