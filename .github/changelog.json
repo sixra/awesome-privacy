@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-20T06:13:50Z",
+  "generatedAt": "2026-06-20T06:48:50Z",
   "processedShas": [
     "02125ec429ec1ce9c5acdec1604703cb058a7887",
     "02231fb0a59ee43f93c6d0143640284cb7587d71",
@@ -125,6 +125,7 @@
     "b2113d1d8325447daf6cfa9c12a53f1fbcf33928",
     "b26fbcfeff3ef2cdd0394d6cb2df5711c4e7d31b",
     "b5a69fc359c36a1bb7ea05c0e29947f73930e189",
+    "b677c2f52c1f2606eddecca0ffc6524339aa0dbc",
     "b718d9cd6c2f4b9c6129d4c9d6b70c1968a137f8",
     "b8b8fa712eba68ffcbf4812d12e5c5b9b45c075f",
     "b922bc401cba34c27b79368fce3f572864b2ada0",
@@ -280,11 +281,36 @@
     611,
     613,
     619,
+    620,
     625,
     629,
+    634,
     637
   ],
   "entries": [
+    {
+      "date": "2026-06-20",
+      "sha": "b677c2f52c1f2606eddecca0ffc6524339aa0dbc",
+      "pr": {
+        "number": 636,
+        "url": "https://github.com/lissy93/awesome-privacy/pull/636",
+        "author": "lissy93",
+        "authorAvatar": "https://avatars.githubusercontent.com/u/1862727?v=4"
+      },
+      "changes": {
+        "services": {
+          "added": [
+            {
+              "name": "Zulip",
+              "category": "Communication",
+              "section": "Team Collaboration"
+            }
+          ]
+        },
+        "sections": {},
+        "categories": {}
+      }
+    },
     {
       "date": "2026-06-20",
       "sha": "5849c7a4ff23b3687ea588d0610bf1b2905d16a2",
@@ -5918,6 +5944,16 @@
       }
     },
     {
+      "date": "2026-06-20",
+      "title": "Add CypherESIM (Virtual Phone Numbers)",
+      "pr": {
+        "number": 634,
+        "url": "https://github.com/lissy93/awesome-privacy/pull/634",
+        "author": "YuriiANdr",
+        "authorAvatar": "https://avatars.githubusercontent.com/u/77146173?v=4"
+      }
+    },
+    {
       "date": "2026-06-16",
       "title": "Add OpenConvert to File Converters",
       "pr": {
@@ -5925,6 +5961,16 @@
         "url": "https://github.com/lissy93/awesome-privacy/pull/629",
         "author": "Theodor94",
         "authorAvatar": "https://avatars.githubusercontent.com/u/178817178?v=4"
+      }
+    },
+    {
+      "date": "2026-06-20",
+      "title": "Add skhron.eu",
+      "pr": {
+        "number": 620,
+        "url": "https://github.com/lissy93/awesome-privacy/pull/620",
+        "author": "g00g1",
+        "authorAvatar": "https://avatars.githubusercontent.com/u/91201021?v=4"
       }
     },
     {
