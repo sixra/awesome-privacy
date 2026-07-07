@@ -353,37 +353,6 @@
     },
     {
       "date": "2026-07-07",
-      "sha": "e1235f1a6cf8694cb54f2c612de154f90db86a07",
-      "pr": null,
-      "changes": {
-        "services": {
-          "moved": [
-            {
-              "name": "OpenHabitTracker",
-              "from": {
-                "category": "Productivity",
-                "section": "Digital Notes"
-              },
-              "to": {
-                "category": "Productivity",
-                "section": "Habit Trackers"
-              }
-            }
-          ]
-        },
-        "sections": {
-          "added": [
-            {
-              "name": "Habit Trackers",
-              "category": "Productivity"
-            }
-          ]
-        },
-        "categories": {}
-      }
-    },
-    {
-      "date": "2026-07-07",
       "sha": "f37535b641525017936ba96637aac18944da4a14",
       "pr": {
         "number": 663,
