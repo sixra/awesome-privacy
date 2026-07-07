@@ -7,6 +7,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+.yarn/
+
 # build output
 dist/
 
@@ -19,3 +21,5 @@ dist/
 
 # macOS crap
 .DS_Store
+
+.vscode/

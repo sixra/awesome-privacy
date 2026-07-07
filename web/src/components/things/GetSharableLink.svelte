@@ -1,42 +1,44 @@
-
 <script lang="ts">
+  import { slugify } from '@utils/fetch-data';
 
-import { slugify } from "@utils/fetch-data";
+  let linkId = $state('');
+  let done = $state(false);
+  let error = $state(false);
 
-let linkId = '';
-let done = false;
-let error = false;
-
-const save = async () => {
-  const savedServices =  JSON.parse(localStorage.getItem('savedServices') || '[]');
-  const inventoryTitle = localStorage.getItem('userTitle') || 'Anon\'s Inventory';
-  const uniqueId = Math.random().toString(36).substring(2);
-  const saveKey = `${uniqueId}_${slugify(inventoryTitle)}`;
-  const url = 'https://awesome-privacy-share-api.as93.net';
-  const data = { key: saveKey, services: savedServices };
-  fetch(url, {
+  const save = async () => {
+    const savedServices = JSON.parse(
+      localStorage.getItem('savedServices') || '[]',
+    );
+    const inventoryTitle =
+      localStorage.getItem('userTitle') || "Anon's Inventory";
+    const uniqueId = Math.random().toString(36).substring(2);
+    const saveKey = `${uniqueId}_${slugify(inventoryTitle)}`;
+    const url = 'https://awesome-privacy-share-api.as93.net';
+    const data = { key: saveKey, services: savedServices };
+    fetch(url, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-  })
-  .then(response => response.json())
-  .then(data => {
-    linkId = data.key;
-    done = true;
-    error = false;
-    navigator.clipboard.writeText(`https://awesome-privacy.xyz/inventory/${linkId}`);
-  })
-  .catch(error => {
-    error = true;
-    console.error('Error:', error)
-  });
-};
-
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        linkId = data.key;
+        done = true;
+        error = false;
+        navigator.clipboard.writeText(
+          `https://awesome-privacy.xyz/inventory/${linkId}`,
+        );
+      })
+      .catch((err) => {
+        error = true;
+        console.error('Error:', err);
+      });
+  };
 </script>
 
 <div class="share-container">
   {#if !done}
-    <button class="save-button" on:click={save}>Get Sharable Link</button>
+    <button class="save-button" onclick={save}>Get Sharable Link</button>
   {/if}
   {#if done}
     <span class="success-msg">
@@ -59,24 +61,24 @@ const save = async () => {
   }
   .save-button {
     background: var(--accent-3);
-    border: 1px solid var(--box-outline);
-    box-shadow: 3px 3px 0 var(--box-outline);
-    padding: 0.25rem 0.5rem;
+    border: var(--border-light);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-xs) var(--space-sm);
     border-radius: var(--curve-sm);
     color: var(--foreground);
-    font-family: Lekton;
-    font-size: 1.2rem;
+    font-family: var(--font-subtitle);
+    font-size: var(--text-md);
     cursor: pointer;
   }
   .success-msg {
-    font-size: 1rem;
+    font-size: var(--text-base);
     color: var(--success);
     a {
       color: var(--success);
     }
   }
   .error-msg {
-    font-size: 1rem;
+    font-size: var(--text-base);
     color: var(--danger);
   }
 </style>

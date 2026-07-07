@@ -1,58 +1,32 @@
 """
 Reads app list from awesome-privacy.yml,
-formats into markdown, and inserts into README.md 
+formats into markdown, and inserts into README.md
 """
 
 import os
 import re
+import sys
 import yaml
 import logging
 from urllib.parse import urlparse
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import utils
+
 # Configure Logging
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
-logging.basicConfig(level=LOG_LEVEL)
+utils.setup_logging(LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 # Determine the project root based on the script's location
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app_list_file_path = os.path.join(project_root, 'awesome-privacy.yml')
 readme_path = os.path.join(project_root, '.github/README.md')
-icon_size=16
-
-# Read the main YAML file, where all data lives
-logger.info("Reading the awesome-privacy file...")
-with open(app_list_file_path, 'r') as file:
-    data = yaml.safe_load(file)
+icon_size=14
 
 def iconElement(serviceUrl, serviceIcon):
   path = serviceIcon or f"https://icon.horse/icon/{urlparse(serviceUrl).netloc}"
-  return f"<img src='{path}' width='{icon_size}' height='{icon_size}' alt='icon' />"
-
-def repoElement(repoUrl):
-    if not repoUrl:
-        return ""
-    return (
-        f"[![GitHub: {repoUrl}](https://img.shields.io/github/stars/{repoUrl}"
-        f"?style=flat&logo=github&label={repoUrl.split('/')[1]}"
-        "&color=%235f53f4&cacheSeconds=3600)]"
-        f"(https://github.com/{repoUrl})"
-    )
-
-def tosElement(tosdrId):
-    if not tosdrId:
-        return ""
-    return f"[![Privacy Policy](https://shields.tosdr.org/en_{tosdrId}.svg)](https://tosdr.org/en/service/{tosdrId})"
-
-def statsElement(isOpenSource, isSecurityAudited, isAcceptsCrypto):
-    statsStr = ""
-    if isOpenSource == True:
-      statsStr += "📦 Open Source "
-    if isSecurityAudited == True:
-      statsStr += "🛡️ Security Audited "
-    if isAcceptsCrypto == True:
-      statsStr += "💰 Accepts Anonymous Payment "
-    return statsStr
+  return f"<img src='{path}' width='{icon_size}' alt='' />"
 
 def slugify(title):
     if not title:
@@ -63,41 +37,57 @@ def slugify(title):
     title = title.replace('?', '')
     return title
 
-def awesomePrivacyReport(categoryName, sectionName, serviceName):
-  if not serviceName:
-      return ""
-  return (
-      f"[![{serviceName} on Awesome Privacy]"
-      f"(https://img.shields.io/badge/View%20Report-FC60A8?style=flat&logo=awesomelists&label={serviceName.replace(' ', '_')})]"
-      f"(https://awesome-privacy.xyz/{slugify(categoryName)}/{slugify(sectionName)}/{slugify(serviceName)})"
-  )
+_MD_PATTERNS = [
+    re.compile(r'\[([^\]]*)\]\([^)]*\)'),    # [text](url) — group 1 = visible text
+    re.compile(r'\*\*(.+?)\*\*'),             # **bold**
+    re.compile(r'`([^`]+)`'),                 # `code`
+    re.compile(r'(?<!\*)\*([^*]+)\*(?!\*)'),  # *italic*
+]
 
-def makeStatsCard():
-  return (
-      f"\t- <details><summary>Stats</summary>\n\n"
-      f""
-      f"\n\n</details>"
-  )
+def truncateMarkdown(text, maxLen=200):
+    """Returns (truncated_text, was_truncated) preserving markdown constructs."""
+    if len(text) <= maxLen:
+        return text, False
+
+    result = []
+    visible = 0
+    i = 0
+
+    while i < len(text) and visible < maxLen:
+        for pattern in _MD_PATTERNS:
+            m = pattern.match(text, i)
+            if m:
+                result.append(m.group(0))
+                visible += len(m.group(1))
+                i = m.end()
+                break
+        else:
+            result.append(text[i])
+            visible += 1
+            i += 1
+
+    return ''.join(result).rstrip(), True
 
 def makeHref(text):
     if not text: return "#"
     return re.sub(r'[^\w\s-]', '', text.lower()).replace(" ", "-")
 
-def makeContents():
-    contents = "<blockquote><details>\n"
+def makeContents(data):
+    contents = "<blockquote><details open>\n"
     contents += "<summary>📋 <b>Contents</b></summary>\n"
 
     for category in data.get('categories'):
         contents += f"\n- **{category.get('name')}**"
         for section in category.get('sections'):
-            contents += (
-                f"\n\t- [{section.get('name')}](#{makeHref(section.get('name'))}) "
-                f"({len(section.get('services') or [])})"
+            if (len(section.get('services') or []) > 0):
+                contents += (
+                    f"\n\t- [{section.get('name')}](#{makeHref(section.get('name'))}) "
+                    f"({len(section.get('services') or [])})"
             )
     contents += "\n</details></blockquote>\n\n"
     return contents
 
-def makeAwesomePrivacy():
+def makeAwesomePrivacy(data):
   markdown = ""
   for category in data.get('categories'):
       markdown += f"## {category.get('name')}\n\n"
@@ -116,26 +106,24 @@ def makeAwesomePrivacy():
             )
           # For each service, list it's name, icon, url, and description
           for app in section.get('services') or []:
+              description, was_truncated = truncateMarkdown(' '.join(app.get('description', '').split()))
+              ap_link = (
+                  f"https://awesome-privacy.xyz/"
+                  f"{slugify(category.get('name'))}/{slugify(section.get('name'))}/{slugify(app.get('name'))}"
+              )
+              ellipsis = f"[…]({ap_link} \"View full {app.get('name')} report\")" if was_truncated else ""
               markdown += (
                   f"- **[{iconElement(app.get('url'), app.get('icon'))} {app.get('name')}]"
-                  f"({app.get('url')})** - {app.get('description')}"
-                  f"[…](https://awesome-privacy.xyz/"
-                  f"{slugify(category.get('name'))}/{slugify(section.get('name'))}/{slugify(app.get('name'))} \"View full {app.get('name')} report\") \n"
-                  + ((
-                    f"\t- <details>\n\t\t<summary>Stats</summary>\n\n\t\t"
-                    f"{repoElement(app.get('github'))} "
-                    f"{tosElement(app.get('tosdrId'))} "
-                    f"{awesomePrivacyReport(category.get('name'), section.get('name'), app.get('name'))} \n"
-                    f"{statsElement(app.get('openSource'), app.get('securityAudited'), app.get('acceptsCrypto'))}˙ \n"
-                    f"\n\t\t</details>\n"
-                  )
-                  if app.get('github') or app.get('tosdrId') else '')
+                  f"({app.get('url')})** - {description}{ellipsis} \n"
               )
           markdown += "\n"
           # If word of warning exists, append it
           if section.get('wordOfWarning'):
             markdown += "<details>\n<summary>⚠️ <b>Word of Warning</b></summary>\n\n"
-            markdown += f"> {section.get('wordOfWarning')}\n\n"
+            word_of_warning = '\n'.join(
+              f"> {line}".rstrip() for line in section.get('wordOfWarning').strip().split('\n')
+            )
+            markdown += f"{word_of_warning}\n\n"
             markdown += "</details>\n\n"
           # If notable mentions exists, append it (either as a list or a single string)
           if section.get('notableMentions'):
@@ -145,7 +133,7 @@ def makeAwesomePrivacy():
                 markdown += f"> - [{mention.get('name')}]({mention.get('url')})" + (
                   f" - {mention.get('description')}" if mention.get('description') else "\n"
               )
-            else: 
+            else:
               notable_mentions = section.get('notableMentions').replace('\n', '\n> ')
               markdown += f"> {notable_mentions}"
 
@@ -159,18 +147,11 @@ def makeAwesomePrivacy():
           markdown += "\n---\n\n"
   return markdown
 
-awesome_privacy_results = makeContents() + makeAwesomePrivacy()
-
-# Update the README.md between markers
-logger.info("Reading README.md file...")
-with open(readme_path, 'r') as file:
-    readme_content = file.read()
-
 def update_content_between_markers(content, start_marker, end_marker, new_content):
     logger.info(f"Updating content between {start_marker} and {end_marker} markers...")
     start_index = content.find(start_marker)
     end_index = content.find(end_marker)
-    
+
     if start_index != -1 and end_index != -1:
         before_section = content[:start_index + len(start_marker)]
         after_section = content[end_index:]
@@ -180,18 +161,32 @@ def update_content_between_markers(content, start_marker, end_marker, new_conten
         logger.error(f"Markers {start_marker} and {end_marker} not found.")
         return content
 
-# Update guides and resources in README.md
-readme_content = update_content_between_markers(
-  readme_content,
-  "<!-- awesome-privacy-start -->",
-  "<!-- awesome-privacy-end -->",
-  awesome_privacy_results
-)
 
-# Write back the updated content to README.md
-logger.info("Writing back to README.md...")
-with open(readme_path, 'w') as file:
-    file.write(readme_content)
+def main():
+    logger.info("Reading the awesome-privacy file...")
+    with open(app_list_file_path, 'r') as file:
+        data = yaml.safe_load(file)
 
-# All done. Time to go home for tea and medals.
-logger.info("Script completed successfully!")
+    awesome_privacy_results = makeContents(data) + makeAwesomePrivacy(data)
+
+    logger.info("Reading README.md file...")
+    with open(readme_path, 'r') as file:
+        readme_content = file.read()
+
+    readme_content = update_content_between_markers(
+        readme_content,
+        "<!-- awesome-privacy-start -->",
+        "<!-- awesome-privacy-end -->",
+        awesome_privacy_results,
+    )
+
+    logger.info("Writing back to README.md...")
+    with open(readme_path, 'w') as file:
+        file.write(readme_content)
+
+    # All done. Time to go home for tea and medals.
+    logger.info("Script completed successfully!")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,10 +1,24 @@
+import { error } from './logger';
+import { safeFetch } from './safe-fetch';
+import { apiBase, enrichHeaders } from './api-config';
 
-export const fetchTosdrPrivacy = async (serviceId: string): Promise<PrivacyPolicyResponse | null> => {
-  const endpoint = `https://privacy-policies.as93.workers.dev/${serviceId}`;
+// Wrap the flat ToS;DR v3 record in the shape the app already consumes.
+export const fetchTosdrPrivacy = async (
+  serviceId: string,
+): Promise<PrivacyPolicyResponse | null> => {
+  const endpoint = `${apiBase}/v1/enrich/privacy/${serviceId}`;
   try {
-    return await fetch(endpoint).then((res) => res.json());
-  } catch (error) {
-    console.error('Error fetching privacy policy data:', error);
+    const res = await safeFetch(endpoint, { headers: enrichHeaders() });
+    if (!res.ok) {
+      error(
+        'ToS;DR',
+        `HTTP ${res.status} for service ${serviceId} (${endpoint})`,
+      );
+      return null;
+    }
+    return { error: 0, message: '', parameters: await res.json() };
+  } catch (err) {
+    error('ToS;DR', `Network error for service ${serviceId}: ${err}`);
     return null;
   }
 };

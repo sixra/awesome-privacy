@@ -1,10 +1,20 @@
+import { error } from './logger';
+import { safeFetch } from './safe-fetch';
+import { apiBase, enrichHeaders } from './api-config';
 
-export const fetchWebsiteInfo = async (url: string): Promise<WebsiteData | null> => {
-  const endpoint = `https://site-info-fetch.as93.workers.dev/?url=${url}`;
+export const fetchWebsiteInfo = async (
+  url: string,
+): Promise<WebsiteData | null> => {
+  const endpoint = `${apiBase}/v1/enrich/website?url=${encodeURIComponent(url)}`;
   try {
-    return await fetch(endpoint).then((res) => res.json());
-  } catch (error) {
-    console.error('Error fetching website info:', error);
+    const res = await safeFetch(endpoint, { headers: enrichHeaders() });
+    if (!res.ok) {
+      error('Website', `HTTP ${res.status} for ${url} (${endpoint})`);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    error('Website', `Network error for ${url}: ${err}`);
     return null;
   }
 };
@@ -19,10 +29,10 @@ interface DNSRecord {
 
 interface DNSRecords {
   ns: {
-      records: DNSRecord[];
+    records: DNSRecord[];
   };
   mx: {
-      records: DNSRecord[];
+    records: DNSRecord[];
   };
 }
 
@@ -60,7 +70,7 @@ interface Redirection {
   found: boolean;
   external: boolean;
   url: string;
-  redirects: any[];
+  redirects: string[];
 }
 
 interface ResponseHeaders {

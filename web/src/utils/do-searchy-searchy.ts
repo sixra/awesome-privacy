@@ -1,19 +1,33 @@
 import type { Category } from '../types/Service';
 
-export const prepareSearchItems = (categories: Category[]) => {
-  const items: any = [];
+export interface SearchItem {
+  type: 'Category' | 'Section' | 'Service';
+  category: string;
+  itemCount?: number;
+  sectionName?: string;
+  description?: string;
+  name?: string;
+  url?: string;
+  github?: string;
+  codeberg?: string;
+  git?: string;
+  logo?: string;
+}
+
+export const prepareSearchItems = (categories: Category[]): SearchItem[] => {
+  const items: SearchItem[] = [];
   // Add each category
-  categories.forEach(category => {
+  categories.forEach((category) => {
     items.push({
       type: 'Category',
       category: category.name,
       itemCount: (category.sections || []).reduce((acc, section) => {
-          return acc + (section.services || []).length;
-        }, 0),
+        return acc + (section.services || []).length;
+      }, 0),
     });
 
     // Add section with category context
-    category.sections.forEach(section => {
+    category.sections.forEach((section) => {
       items.push({
         type: 'Section',
         sectionName: section.name,
@@ -21,15 +35,17 @@ export const prepareSearchItems = (categories: Category[]) => {
         category: category.name,
         itemCount: (section.services || []).length,
       });
-      
+
       // Add service with section and category context
-      (section.services || []).forEach(service => {
+      (section.services || []).forEach((service) => {
         items.push({
           type: 'Service',
           name: service.name,
           description: service.description,
           url: service.url,
           github: service.github || '',
+          codeberg: service.codeberg || '',
+          git: service.git || '',
           category: category.name,
           sectionName: section.name,
           logo: service.icon || '',
@@ -49,10 +65,12 @@ export const searchOptions = {
     { name: 'notableMentions', weight: 0.5 },
     { name: 'alternativeTo', weight: 0.5 },
     { name: 'github', weight: 0.4 },
+    { name: 'codeberg', weight: 0.4 },
+    { name: 'git', weight: 0.3 },
     { name: 'url', weight: 0.2 },
     { name: 'description', weight: 0.1 },
     { name: 'intro', weight: 0.1 },
     { name: 'furtherInfo', weight: 0.1 },
-    { name: 'wordOfWarning', weight: 0.1 },        
+    { name: 'wordOfWarning', weight: 0.1 },
   ],
 };

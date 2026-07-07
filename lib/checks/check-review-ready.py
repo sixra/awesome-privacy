@@ -1,0 +1,104 @@
+"""Decides whether a PR is ready for maintainer review.
+
+Conditions: 2+ approvals from external contributors AND all CI checks passing.
+
+Reads:
+  pr-meta/reviews.json       — array of {user, state} from GitHub API
+  pr-meta/check-runs.json    — array of {status, conclusion} from GitHub API
+  pr-meta/already-notified.txt — "true" if notification comment already exists
+
+Writes:
+  pr-meta/action.txt         — "notify" or "skip"
+"""
+
+import json
+import logging
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import utils
+
+utils.setup_logging()
+logger = logging.getLogger(__name__)
+
+WORK_DIR = "pr-meta"
+MAINTAINER = "Lissy93"
+REQUIRED_APPROVALS = 2
+PASSING_CONCLUSIONS = {"success", "skipped", "neutral"}
+
+
+def read_json(filename):
+    """Load a JSON file from the work directory, or empty list on error."""
+    try:
+        with open(os.path.join(WORK_DIR, filename)) as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def count_external_approvals(reviews):
+    """Count unique non-maintainer users who approved."""
+    approvers = {
+        r["user"]
+        for r in reviews
+        if r.get("state") == "APPROVED"
+        and r.get("user", "").lower() != MAINTAINER.lower()
+    }
+    return len(approvers)
+
+
+def all_checks_passing(check_runs):
+    """Return True if every check run completed successfully."""
+    if not check_runs:
+        return False
+    return all(
+        cr.get("status") == "completed"
+        and cr.get("conclusion") in PASSING_CONCLUSIONS
+        for cr in check_runs
+    )
+
+
+def already_notified():
+    """Return True if the notification comment already exists on the PR."""
+    try:
+        with open(os.path.join(WORK_DIR, "already-notified.txt")) as f:
+            return f.read().strip().lower() == "true"
+    except Exception:
+        return False
+
+
+def write_action(action):
+    os.makedirs(WORK_DIR, exist_ok=True)
+    with open(os.path.join(WORK_DIR, "action.txt"), "w") as f:
+        f.write(action)
+
+
+def main():
+    logger.info("Checking whether the PR is ready for maintainer review")
+    if already_notified():
+        logger.info("Maintainer already notified, action=skip")
+        write_action("skip")
+        return
+
+    reviews = read_json("reviews.json")
+    approvals = count_external_approvals(reviews)
+    logger.info("%d external approval(s), need %d", approvals, REQUIRED_APPROVALS)
+
+    if approvals < REQUIRED_APPROVALS:
+        logger.info("Not enough approvals, action=skip")
+        write_action("skip")
+        return
+
+    check_runs = read_json("check-runs.json")
+    if not all_checks_passing(check_runs):
+        logger.info("Not all %d check run(s) passing, action=skip", len(check_runs))
+        write_action("skip")
+        return
+
+    logger.info("Approvals met and all checks passing, action=notify")
+    write_action("notify")
+
+
+if __name__ == "__main__":
+    main()

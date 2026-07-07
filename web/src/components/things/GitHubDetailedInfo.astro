@@ -132,7 +132,7 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
   <div class="left">
     <h4>Author</h4>
     <p>
-      <img src={gitHubData.info.ownerAvatar} width="20" height="20" />
+      <img src={gitHubData.info.ownerAvatar} alt="" width="20" height="20" />
       <a target="_blank" href={`https://github.com/${gitHubData.info.ownerUsername}`}>
         {gitHubData.info.ownerUsername}
       </a>
@@ -166,7 +166,7 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
     <h4>Size</h4>
     <p>{formatBigNumber(gitHubData.info.size)} KB</p>
     <h4>Stars</h4>
-    <p>{formatBigNumber(gitHubData.info.scarCount)}</p>
+    <p>{formatBigNumber(gitHubData.info.starCount)}</p>
     <h4>Forks</h4>
     <p>{formatBigNumber(gitHubData.info.forksCount)}</p>
     <h4>Watchers</h4>
@@ -185,7 +185,7 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
       <ul>
         {gitHubData.contributors.map((contributor) => (
           <li>
-            <img src={contributor.avatar} width="20" height="20" />
+            <img src={contributor.avatar} alt="" width="20" height="20" />
             <a href={`https://github.com/${contributor.username}`} target="_blank">
               @{contributor.username}
               </a> ({contributor.contributions})
@@ -198,7 +198,7 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
       <ul>
         {gitHubData.commits.map((commit) => (
           <li>
-            <img src={commit.authorAvatar} width="20" height="20" />
+            <img src={commit.authorAvatar} alt="" width="20" height="20" />
             <a href={`https://github.com/${commit.authorUsername}`} target="_blank">
               {commit.authorName}
             </a>
@@ -212,16 +212,9 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
 </div>
 
 <style lang="scss">
+  @use '../../styles/mixins' as *;
   .gh-info-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    .left, .right {
-      width: 50%;
-      @media (max-width: 768px) {
-        width: 100%;
-      }
-    }
+    @include detail-info-layout;
     .long-list-data {
       width: 100%;
       display: flex;
@@ -229,57 +222,40 @@ const languageChart = `https://quickchart.io/chart?c=${generateChartData(gitHubD
       justify-content: space-between;
       .list-wrap {
         .date {
-          font-size: 0.8rem;
-          opacity: 0.6;
+          font-size: var(--text-sm);
+          opacity: var(--opacity-muted);
         }
         .commit-msg {
-          font-size: 0.8rem;
-          opacity: 0.8;
+          font-size: var(--text-sm);
+          opacity: var(--opacity-subtle);
           display: -webkit-box;
           -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;  
+          -webkit-box-orient: vertical;
           overflow: hidden;
         }
       }
     }
   }
 
-  h4 {
-    margin: 1rem 0 0 0;
-    font-size: 1.2rem;
-  }
-  p {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    :global(svg) {
-      width: 1rem;
-    }
-    img {
-      border-radius: var(--curve-sm);
-    }
-  }
+  @include detail-info-base;
+
   .tags {
     display: flex;
     flex-wrap: wrap;
     .tag {
       margin: 0.1rem;
-      background: #5f53f440;
+      background: var(--accent-3-translucent);
       border-radius: var(--curve-sm);
       padding: 0.05rem 0.2rem;
-      font-size: 0.8rem;
-      opacity: 0.8;
+      font-size: var(--text-sm);
+      opacity: var(--opacity-subtle);
     }
   }
   ul {
-    padding-left: 1rem;
+    padding-left: var(--space-md);
     list-style: circle;
     max-height: 400px;
     overflow: auto;
-    img {
-      border-radius: var(--curve-sm);
-    }
   }
   .languages-img {
     width: 100%;

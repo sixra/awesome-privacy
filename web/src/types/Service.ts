@@ -1,5 +1,3 @@
-
-
 export interface ShortService {
   name: string;
   description: string;
@@ -11,6 +9,8 @@ export interface Service {
   description: string;
   url: string;
   github?: string;
+  codeberg?: string;
+  git?: string;
   icon?: string;
   links?: Array<{
     title: string;
@@ -41,7 +41,6 @@ export interface Category {
   name: string;
   sections: Section[];
 }
-
 
 export interface AwesomePrivacy {
   categories: Array<{

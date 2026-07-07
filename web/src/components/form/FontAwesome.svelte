@@ -4,7 +4,6 @@
   import * as brands from '@fortawesome/free-brands-svg-icons';
   import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-
   export const iconMap: Record<string, IconDefinition> = {
     // Branding
     logo: solidIcons.faEyeSlash,
@@ -75,21 +74,18 @@
     website: solidIcons.faGlobe,
     sourceCode: solidIcons.faCodeBranch,
     viewReport: solidIcons.faShieldHalved,
+    externalLink: solidIcons.faArrowUpRightFromSquare,
 
     //Misc
     ratingStar: solidIcons.faStar,
     saveListing: solidIcons.faBookmark,
     noTrackers: solidIcons.faShieldCheck,
+    warning: solidIcons.faTriangleExclamation,
   };
 
-  export let iconName: string;
-
+  let { iconName }: { iconName: string } = $props();
 </script>
 
 {#if iconMap[iconName]}
-  <FontAwesomeIcon 
-    class="fa-icon" 
-    icon={iconMap[iconName]} />
+  <FontAwesomeIcon class="fa-icon" icon={iconMap[iconName]} />
 {/if}
-
-

@@ -2,22 +2,27 @@
   import FontAwesome from '@components/form/FontAwesome.svelte';
   import SaveListing from '@components/things/SaveListing.svelte';
   import { slugify } from '@utils/fetch-data';
-  import { formatLink } from '@utils/parse-markdown';
+  import { formatLink, codebergUrl } from '@utils/parse-markdown';
   import type { Service } from 'src/types/Service';
 
-  export let service: Service;
-  export let categoryName: string;
-  export let sectionName: string;
+  interface Props {
+    service: Service;
+    categoryName: string;
+    sectionName: string;
+  }
+  const { service, categoryName, sectionName }: Props = $props();
 
-  // Computed values based on props
-  let serviceRef = slugify(service.name);
-  let categorySlug = slugify(categoryName);
-  let sectionSlug = slugify(sectionName);
+  const serviceRef = $derived(slugify(service.name));
+  const categorySlug = $derived(slugify(categoryName));
+  const sectionSlug = $derived(slugify(sectionName));
 </script>
 
 <div class="service" id={serviceRef}>
   <div class="service-head">
-    <a class="service-title" href={`/${categorySlug}/${sectionSlug}/${serviceRef}`}>
+    <a
+      class="service-title"
+      href={`/${categorySlug}/${sectionSlug}/${serviceRef}`}
+    >
       <h4>{service.name}</h4>
     </a>
     {#if service.followWith}
@@ -26,11 +31,7 @@
   </div>
 
   <div class="save-listing">
-    <SaveListing
-      categoryName={categoryName}
-      sectionName={sectionName}
-      serviceName={service.name}
-    />
+    <SaveListing {categoryName} {sectionName} serviceName={service.name} />
   </div>
 
   <div class="service-body">
@@ -45,17 +46,48 @@
       src={service.icon || `https://icon.horse/icon/${formatLink(service.url)}`}
     />
     <div class="service-body">
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -- description is from curated YAML data, not user input -->
       <p>{@html service.description}</p>
     </div>
   </div>
 
   <div class="service-links">
-    <a class="link" href={service.url}>
+    <a
+      class="link"
+      href={service.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <FontAwesome iconName="website" /> <span>{formatLink(service.url)}</span>
     </a>
     {#if service.github}
-      <a class="link" href={`https://github.com/${service.github}`}>
+      <a
+        class="link"
+        href={`https://github.com/${service.github}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FontAwesome iconName="sourceCode" /> GitHub
+      </a>
+    {/if}
+    {#if service.codeberg}
+      <a
+        class="link"
+        href={codebergUrl(service.codeberg)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FontAwesome iconName="sourceCode" /> Codeberg
+      </a>
+    {/if}
+    {#if service.git}
+      <a
+        class="link"
+        href={service.git}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FontAwesome iconName="sourceCode" /> Source
       </a>
     {/if}
     <a href={`/${categorySlug}/${sectionSlug}/${serviceRef}`}>
@@ -65,5 +97,5 @@
 </div>
 
 <style lang="scss">
-  @import './service-card.scss';
+  @use './service-card.scss';
 </style>

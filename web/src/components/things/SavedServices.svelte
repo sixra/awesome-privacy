@@ -1,48 +1,56 @@
 <script lang="ts">
-import { onMount } from 'svelte';
-import { writable } from 'svelte/store';
+  import { onMount } from 'svelte';
 
-import type { Category, Service } from '../../types/Service';
-import { slugify } from "@utils/fetch-data";
-import ServiceCard from './ServiceCard.svelte';
+  import type { Category, Service } from '../../types/Service';
+  import { slugify } from '@utils/fetch-data';
+  import ServiceCard from './ServiceCard.svelte';
 
-export let allData: Category[];
-export let serviceList: string[] | null = null;
+  interface Props {
+    allData: Category[];
+    serviceList?: string[] | null;
+  }
+  const { allData, serviceList = null }: Props = $props();
 
-interface SavedServices {
-  category: string;
-  section: string;
-  service: Service;
-}
+  interface SavedServices {
+    category: string;
+    section: string;
+    service: Service;
+  }
 
-const savedServices = writable<SavedServices[]>([]);
+  let savedServices: SavedServices[] = $state([]);
 
-onMount(async () => {
-  const results: SavedServices[] = [];
-  const saved = serviceList || JSON.parse(localStorage.getItem('savedServices') || '[]');
-  saved.forEach((serviceId: string) => {
-    const parts = serviceId.split('/');
-    const categoryName = parts[0];
-    const sectionName = parts[1];
-    const serviceName = parts[2];
+  onMount(async () => {
+    const results: SavedServices[] = [];
+    const saved =
+      serviceList || JSON.parse(localStorage.getItem('savedServices') || '[]');
+    saved.forEach((serviceId: string) => {
+      const parts = serviceId.split('/');
+      const categoryName = parts[0];
+      const sectionName = parts[1];
+      const serviceName = parts[2];
 
-    const category = allData.find((category) => slugify(category.name) === categoryName);
-    if (!category) return;
-    const section = category.sections.find((section) => slugify(section.name) === sectionName);
-    if (!section) return;
-    const service = section.services.find((service) => slugify(service.name) === serviceName);
-    if (!service) return;
-    results.push({ category: category.name, section: section.name, service});
+      const category = allData.find(
+        (category) => slugify(category.name) === categoryName,
+      );
+      if (!category) return;
+      const section = category.sections.find(
+        (section) => slugify(section.name) === sectionName,
+      );
+      if (!section) return;
+      const service = section.services.find(
+        (service) => slugify(service.name) === serviceName,
+      );
+      if (!service) return;
+      results.push({ category: category.name, section: section.name, service });
+    });
+    savedServices = results;
   });
-  savedServices.set(results || []);
-});
-
 </script>
 
 <div>
-  {#if $savedServices.length > 0}
+  {#if savedServices.length > 0}
     <div class="saved-services">
-      {#each $savedServices as thingy}
+      {#each savedServices as thingy (thingy.service.name + thingy.section)}
         <ServiceCard
           categoryName={thingy.category}
           sectionName={thingy.section}
@@ -52,12 +60,18 @@ onMount(async () => {
     </div>
   {:else if !serviceList}
     <div class="nothing-yet">
-      <p>Here you'll find a list of all the software and services you've bookmarked.</p>
+      <p>
+        Save software and services, to curate your own privacy-respecting
+        software collection.
+      </p>
       <small>
-        All data is stored on-device, in your browser's local storage,
-        and not sent anywhere unless you choose to share it
+        All data is stored on-device, in your browser's local storage, and not
+        sent anywhere unless you choose to share it
       </small>
       <p class="nope">Nothing saved yet!</p>
+      <div class="footer">
+        <a class="small-button" href="/all">Browse all entries &rarr;</a>
+      </div>
     </div>
   {/if}
 </div>
@@ -66,24 +80,37 @@ onMount(async () => {
   .saved-services {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
   }
 
   .nothing-yet {
+    background: var(--accent-fg);
+    border: var(--border-heavy);
+    border-radius: var(--curve-sm);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-md);
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
     text-align: center;
     p {
       margin: 0;
     }
     small {
-      font-size: 0.8rem;
-      opacity: 0.6;
+      font-size: var(--text-sm);
+      opacity: var(--opacity-muted);
     }
     .nope {
       font-weight: bold;
-      margin: 2rem 0;
-      opacity: 0.2;
-      font-size: 1.6rem;
+      margin: var(--space-lg) 0 var(--space-sm);
+      font-size: var(--text-xl);
+      opacity: var(--opacity-muted);
+    }
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: var(--space-md);
     }
   }
 </style>

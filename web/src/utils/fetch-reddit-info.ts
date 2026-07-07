@@ -1,10 +1,20 @@
+import { error } from './logger';
+import { safeFetch } from './safe-fetch';
+import { apiBase, enrichHeaders } from './api-config';
 
-export const fetchRedditInfo = async (subreddit: string): Promise<RedditData | null> => {
-  const endpoint = `https://subreddit-info.as93.net/${subreddit}`;
+export const fetchRedditInfo = async (
+  subreddit: string,
+): Promise<RedditData | null> => {
+  const endpoint = `${apiBase}/v1/enrich/reddit/${subreddit}`;
   try {
-    return await fetch(endpoint).then((res) => res.json());
-  } catch (error) {
-    console.error('Error fetching reddit data:', error);
+    const res = await safeFetch(endpoint, { headers: enrichHeaders() });
+    if (!res.ok) {
+      error('Reddit', `HTTP ${res.status} for r/${subreddit} (${endpoint})`);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    error('Reddit', `Network error for r/${subreddit}: ${err}`);
     return null;
   }
 };
