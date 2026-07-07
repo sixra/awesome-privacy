@@ -1,8 +1,7 @@
 name: 🚀 Deploy API
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
     paths:
       - 'api/**'
@@ -20,7 +19,7 @@ concurrency:
 jobs:
   checks:
     name: 🧪 Checks
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    if: github.repository == 'lissy93/awesome-privacy'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,6 +39,7 @@ jobs:
   deploy:
     name: ☁️ Deploy to Cloudflare
     needs: checks
+    if: github.repository == 'lissy93/awesome-privacy'
     runs-on: ubuntu-latest
     defaults:
       run:
