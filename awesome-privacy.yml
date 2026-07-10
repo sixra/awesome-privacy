@@ -5134,9 +5134,21 @@ categories:
     - name: Music Players
       alternativeTo: ['spotify', 'apple music', 'google play music', 'amazon music', 'pandora']
       services: []
+
     - name: Video Players
-      alternativeTo: ['vlc', 'windows media player', 'quicktime', 'mplayer', 'kmplayer']
-      services: []
+      alternativeTo: ['windows media player', 'quicktime', 'mplayer', 'kmplayer']
+      services:
+      - name: VLC Media Player
+        url: https://www.videolan.org/vlc/
+        icon: https://avatars.githubusercontent.com/u/1389585?s=256&v=4
+        github: videolan/vlc
+        iosApp: https://apps.apple.com/us/app/vlc-media-player/id650377962
+        androidApp: org.videolan.vlc
+        subreddit: VLC
+        description: |
+          Free, cross-platform media player from the non-profit VideoLAN project.
+          Plays almost any audio or video format locally, with no ads, trackers or telemetry.
+          VLC has many powerful features and settings, but the UI can initially be hard to use.
 
     - name: Photo Management
       alternativeTo: ['google photos', 'windows photo viewer', 'adobe lightroom', 'apple photos', 'irfanview']
