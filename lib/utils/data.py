@@ -31,6 +31,6 @@ def slugify(title):
     if not title:
         return ""
     title = title.lower()
-    title = re.sub(r"\s", "-", title)
+    title = re.sub(r"\s+", "-", title)
     title = re.sub(r"[+&]", "and", title)
     return title.replace("?", "")
