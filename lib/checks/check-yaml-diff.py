@@ -57,12 +57,12 @@ def write_github_output(name, value):
 def find_duplicate_names(data):
     """Find duplicate service names within the same section."""
     duplicates = []
-    for cat in data.get("categories", []):
+    for cat in data.get("categories") or []:
         cn = cat.get("name", "")
-        for sec in cat.get("sections", []):
+        for sec in cat.get("sections") or []:
             sn = sec.get("name", "")
             seen = {}
-            for svc in sec.get("services", []):
+            for svc in sec.get("services") or []:
                 name = svc.get("name", "")
                 if name in seen:
                     duplicates.append((cn, sn, name))

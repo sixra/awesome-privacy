@@ -50,7 +50,7 @@ MISSING_TYPE_MSG = (
 )
 
 _VALID_TYPES = re.compile(
-    r"addition|amendment|removal|spelling|grammar|website|lib|ci|api|misc|other",
+    r"addition|amendment|removal|spelling|grammar|website|scripts|lib|ci|api|misc|other",
     re.IGNORECASE,
 )
 

@@ -403,7 +403,7 @@ def grade_website_stats(data, url, has_security_txt):
 
 def fetch_android_data(package_id):
     """Fetch Android app privacy data."""
-    package_id = package_id.split("id=")[-1] if "id=" in package_id else package_id
+    package_id = (package_id.split("id=")[-1] if "id=" in package_id else package_id).split("&")[0]
     data = _enrich_get(f"android/{package_id}")
     return data if data and not data.get("error") else None
 
@@ -450,7 +450,7 @@ def fetch_ios_data(app_url):
     """Fetch iOS app info, extracting the numeric id and country from the store URL."""
     if not app_url:
         return None
-    id_match = re.search(r"id(\d+)", app_url)
+    id_match = re.search(r"/id(\d+)", app_url)
     if not id_match:
         return None
     country_match = re.search(r"apps\.apple\.com/([a-z]{2})/", app_url)

@@ -50,7 +50,7 @@ def read_findings_count(new_body):
 def _was_already_passing(existing_body):
     """Check if the most recent state in the comment is already all-clear."""
     # If there's a previous "all passing" edit, the last state was passing
-    if re.search(r"^(?:\*\*)?Edit(?: \d+)?(?:\*\*)?: (?:- )?All checks are (now passing|passing now)", existing_body, re.MULTILINE):
+    if re.search(r"^(?:\*\*)?Edit(?: \d+)?:(?:\*\*)? (?:- )?All checks are (now passing|passing now)", existing_body, re.MULTILINE):
         return True
     # If there are no edits at all, check the original comment body
     if not re.search(r"^(?:\*\*)?Edit(?: \d+)?(?:\*\*)?:", existing_body, re.MULTILINE):
@@ -61,7 +61,7 @@ def _was_already_passing(existing_body):
 def _previous_failing_count(existing_body):
     """Extract the findings count from the most recent state in the comment."""
     # Check edit lines first (most recent state)
-    matches = re.findall(r"^(?:\*\*)?Edit(?: \d+)?(?:\*\*)?: (?:- )?(\d+) checks? (?:is|are) still failing", existing_body, re.MULTILINE)
+    matches = re.findall(r"^(?:\*\*)?Edit(?: \d+)?:(?:\*\*)? (?:- )?(?:\d+ issues? (?:was|were) resolved, but )?(\d+) checks? (?:is|are) still failing", existing_body, re.MULTILINE)
     if matches:
         return int(matches[-1])
     # No edits — count bullets in the original comment (before <details>)
