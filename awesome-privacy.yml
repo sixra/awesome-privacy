@@ -1556,9 +1556,8 @@ categories:
         github: ajayyy/SponsorBlock
         icon: https://sponsor.ajay.app/icons/icon-192x192.png?v=2190b8dd66c9e760a732842073d0a087
         description: |
-          A crowdsourced browser extension that skips sponsored segments, intros,
-          outros and other parts of YouTube videos that you normally skip or would
-          prefer to skip, using community-submitted timestamps.
+          Crowdsourced browser extension that skips sponsored segments and other
+          unwanted parts of YouTube videos using community-submitted timestamps.
           **Download**: [Firefox](https://addons.mozilla.org/firefox/addon/sponsorblock/) - [Chrome](https://chromewebstore.google.com/detail/sponsorblock-para-youtube/mnjggcdmjocbbbhaepdhchncahnbgone)
 
       notableMentions:
