@@ -76,6 +76,7 @@ corporations, governments, and hackers from logging, storing or selling your per
 	- [Habit Trackers](#habit-trackers) (1)
 	- [Secure Conference Calls](#secure-conference-calls) (2)
 	- [Maps & Navigation](#maps--navigation) (1)
+	- [Accessibility](#accessibility) (1)
 - **Utilities**
 	- [Virtual Machines](#virtual-machines) (3)
 	- [PGP Managers](#pgp-managers) (8)
@@ -1285,6 +1286,18 @@ building a detailed picture of where you live, work and travel. A privacy-respec
 maps app keeps navigation on your device, works offline, and collects nothing about you.
 
 - **[<img src='https://www.comaps.app/favicon.ico' width='14' alt='' /> CoMaps](https://www.comaps.app)** - Community-led, not-for-profit offline maps and navigation app built on OpenStreetMap data. No tracking, ads or data collection; all search and routing happen on-device. A community fork of Organic Map[…](https://awesome-privacy.xyz/productivity/maps-and-navigation/comaps "View full CoMaps report") 
+
+<p align="right"><sup><a href="#top">⬆️ [Back to Top]</a></sub></p>
+
+---
+
+### Accessibility
+
+Accessibility software like screen readers, dictation and voice input often runs
+in the cloud, sending everything you say or read to a remote server. Privacy-respecting
+alternatives keep this processing on your device, so your input never leaves it.
+
+- **[<img src='https://vocalinux.com/icon-192x192.png' width='14' alt='' /> Vocalinux](https://vocalinux.com/)** - Offline system-wide voice dictation for Linux (X11 and Wayland). Uses local models (whisper.cpp, Whisper, or VOSK) so microphone audio never leaves the device. Tray app with hotkeys; GPLv3. Currently[…](https://awesome-privacy.xyz/productivity/accessibility/vocalinux "View full Vocalinux report") 
 
 <p align="right"><sup><a href="#top">⬆️ [Back to Top]</a></sub></p>
 
