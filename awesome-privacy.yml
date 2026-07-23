@@ -1551,6 +1551,15 @@ categories:
           A browser extension that redirects popular sites to alternative privacy friendly frontends
           **Download**: [Firefox](https://addons.mozilla.org/firefox/addon/libredirect/) - [Chrome](https://libredirect.github.io/download_chromium.html)
 
+      - name: SponsorBlock
+        url: https://sponsor.ajay.app
+        github: ajayyy/SponsorBlock
+        icon: https://sponsor.ajay.app/icons/icon-192x192.png?v=2190b8dd66c9e760a732842073d0a087
+        description: |
+          Crowdsourced browser extension that skips sponsored segments and other
+          unwanted parts of YouTube videos using community-submitted timestamps.
+          **Download**: [Firefox](https://addons.mozilla.org/firefox/addon/sponsorblock/) - [Chrome](https://chromewebstore.google.com/detail/sponsorblock-para-youtube/mnjggcdmjocbbbhaepdhchncahnbgone)
+
       notableMentions:
       - name: Extension source viewer
         url: https://addons.mozilla.org/en-US/firefox/addon/crxviewer
